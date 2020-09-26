@@ -1,0 +1,151 @@
+import java.util.Scanner;
+
+class sit1 {
+	String seat[] = new String[10];
+	String seatname;
+
+	public sit1(String seatname) {
+		this.seatname=seatname;
+		
+		for(int i=0;i<10;i++)
+			seat[i]="---";
+	}
+	
+	void insert(String name, int num) {
+		seat[num-1] = name;
+	}
+
+	void delete(String name) {
+		for (int i = 0; i < 10; i++) {
+			if (seat[i].equals(name)) {
+				seat[i] = "---";
+				break;
+			}
+		}
+	}
+
+	void print() {
+		for (int i = 0; i < 10; i++)
+			System.out.print(seat[i] + " ");
+		System.out.println();
+	}
+
+	int checkempty() {
+		for (int i = 0; i < 10; i++) {
+			if (seat[i].equals("---"))
+				return 0;
+		}
+
+		return 1;
+	}
+
+}
+
+public class Reservation {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		sit1[] X = new sit1[3];
+		X[0] = new sit1("S");
+		X[1] = new sit1("A");
+		X[2] = new sit1("B");
+
+		String username = ""; // 예약할 사용자 이름
+		int userseat = 0; // 예약할 사용자 번호
+		int menu = 0; // 메뉴 번호
+		int seatnum = 0; // 좌석 선택번호(S, A, B)
+		int answer = 0; // 사용자의 선택 확인용
+
+		System.out.println("명품콘서트홀 예약 시스템입니다.");
+		while (menu != 4) {
+
+			System.out.print("예약: 1 조회: 2 취소: 3 끝내기: 4 >> ");
+			menu = scanner.nextInt();
+
+			if (menu == 1) { // 예약 단계
+				System.out.println("---------------------------");
+				System.out.println("예약 메뉴입니다.");
+				// 좌석 선택하고 현 예약 상태 확인
+				System.out.println("좌석을 선택해 주세요.");
+				System.out.print("S(1) A(2) B(3) >> ");
+				seatnum = scanner.nextInt();
+				System.out.println("현재 좌석 상태");
+				System.out.print(X[seatnum - 1].seatname + ">> ");
+				X[seatnum - 1].print();
+				// 예약이 가능한 좌석이 존재하는지 확인
+				if (X[seatnum - 1].checkempty() == 1) {// 빈 좌석이 없을 경우
+					System.out.println("<<<죄송합니다. 현재 예약 가능한 좌석이 없습니다.>>>");
+					System.out.println("---------------------------");
+					continue;
+				}
+
+				while (true) {
+					// 예약하고자 하는 좌석 번호와 이름 입력
+					System.out.print("이름>> ");
+					username = scanner.next();
+					System.out.print("번호>> ");
+					userseat = scanner.nextInt();
+
+					System.out.println("좌석" + X[seatnum - 1].seatname + "의 " + userseat + "번째에 " + username + "으로 예약합니다.");// 예약
+																													// 사항
+																													// 확인
+					System.out.print("맞으면 '1' 아니면 '2'를 입력해 주세요. >> ");
+					answer = scanner.nextInt();
+					if (answer == 1) // 맞으면 반복문 종료
+						break;
+				}
+
+				X[seatnum - 1].insert(username, userseat); // 좌석 예약
+				System.out.println("<<<예약이 완료되었습니다.>>>");
+
+				System.out.println("---------------------------");
+			}
+
+			else if (menu == 2) {// 좌석 조회 단계
+				System.out.println("---------------------------");
+
+				System.out.println("<<<조회 메뉴입니다.>>>");
+				// 좌석 선택하고 현 예약 상태 확인
+
+				System.out.println("현재 좌석 상태");
+				for (int i = 0; i < 3; i++) {
+					System.out.print(X[seatnum - 1].seatname + ">> ");
+					X[i].print();
+				}
+
+				System.out.println("<<<조회를 완료하였습니다.>>>");
+				System.out.println("---------------------------");
+			}
+
+			else if (menu == 3) {
+				System.out.println("---------------------------");
+
+				System.out.println("<<<취소 메뉴입니다.>>>");
+				System.out.println("좌석을 선택해 주세요.");
+				System.out.print("S(1) A(2) B(3) >> ");
+				seatnum = scanner.nextInt();
+				System.out.println("현재 좌석 상태");
+				System.out.print(X[seatnum - 1].seatname + ">> ");
+				X[seatnum - 1].print();
+
+				System.out.print("이름>> ");
+				username = scanner.next();
+				X[seatnum - 1].delete(username); // 예약 취소 메소드
+
+				System.out.println("<<<예약이 취소되었습니다.>>>");
+				System.out.println("---------------------------");
+			}
+			
+			else if(menu == 4) {
+				System.out.println("명품콘서트홀 예약 시스템을 종료합니다.");
+				System.out.println("감사합니다.");
+			}
+			else
+				System.out.println("잘못입력하셨습니다. 1~4 사이의 숫자를 입력바랍니다.");
+		}
+
+
+		scanner.close();
+	}
+
+}
