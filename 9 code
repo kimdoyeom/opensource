@@ -1,0 +1,56 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class usingswing extends JFrame {
+	usingswing() {
+		setTitle("homework-9");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new BorderLayout());
+		c.add(new North(), BorderLayout.NORTH);
+		c.add(new Center(), BorderLayout.CENTER);
+		setSize(300, 300);
+		setVisible(true);
+
+	}
+
+	public static void main(String[] args) {
+		new usingswing();
+	}
+
+}
+
+class North extends JPanel { // NORTH에 붙일 패널
+	North() {
+		setBackground(Color.LIGHT_GRAY);
+		this.add(new JButton("Open"));
+		this.add(new JButton("Read"));
+		this.add(new JButton("Close"));
+	}
+}
+
+class Center extends JPanel { // CENTER에 붙일 패널
+	Center() {
+		this.setLayout(null);
+		String text[] = { "Hello", "Java", "Love" };
+		int x;
+		int y;
+		JLabel label;
+		//각 단어 좌표 설정
+		for (int i = 0; i < 3; i++) {
+			x = 100 + 50 * i;
+			y = 200 - 50 * i;
+			label = new JLabel(text[i]);
+			label.setLocation(x, y);
+			label.setSize(50, 10);
+			this.add(label);
+		}
+	}
+}
